@@ -1,4 +1,4 @@
-# index-and-search-lucene
+# index-and-search-with-lucene
 
 Sample application of indexing and searching with Apache Lucene.
 
