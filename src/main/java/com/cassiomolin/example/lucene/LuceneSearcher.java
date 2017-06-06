@@ -1,11 +1,11 @@
 package com.cassiomolin.example.lucene;
 
-import com.cassiomolin.example.model.PersonDetails;
+import com.cassiomolin.example.model.ShoppingList;
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
@@ -38,28 +38,41 @@ public class LuceneSearcher {
      * @return
      * @throws IOException
      */
-    public List<PersonDetails> findAll(Directory index) throws IOException {
+    public List<ShoppingList> findAll(Directory index) throws IOException {
         Query query = new MatchAllDocsQuery();
         List<Document> documents = executeQuery(index, query, Integer.MAX_VALUE);
-        return documents.stream().map(this::toPersonDetails).collect(Collectors.toList());
+        return documents.stream().map(this::toShoppingList).collect(Collectors.toList());
     }
 
     /**
-     * Search documents by gender.
+     * Search documents by person name.
      *
      * @param index
-     * @param gender
+     * @param personName
      * @return
      * @throws IOException
      */
-    public List<PersonDetails> findByGender(Directory index, String gender) throws IOException {
-        Query query = new TermQuery(new Term(DocumentFields.GENDER_FIELD, gender));
+    public List<ShoppingList> findByPersonName(Directory index, String personName) throws IOException {
+        Query query = new TermQuery(new Term(DocumentFields.NAME_FIELD, personName));
         List<Document> documents = executeQuery(index, query, Integer.MAX_VALUE);
-        return documents.stream().map(this::toPersonDetails).collect(Collectors.toList());
+        return documents.stream().map(this::toShoppingList).collect(Collectors.toList());
     }
 
     /**
-     * Search documents by salary range.
+     * Search documents by item.
+     *
+     * @param index
+     * @return
+     * @throws IOException
+     */
+    public List<ShoppingList> findByItem(Directory index, String item) throws IOException {
+        Query query = new TermQuery(new Term(DocumentFields.ITEM_FIELD, item));
+        List<Document> documents = executeQuery(index, query, Integer.MAX_VALUE);
+        return documents.stream().map(this::toShoppingList).collect(Collectors.toList());
+    }
+
+    /**
+     * Search documents by a range of date.
      *
      * @param index
      * @param lowerValue
@@ -67,29 +80,14 @@ public class LuceneSearcher {
      * @return
      * @throws IOException
      */
-    public List<PersonDetails> findBySalaryRange(Directory index, Integer lowerValue, Integer upperValue) throws IOException {
-        Query query = IntPoint.newRangeQuery(DocumentFields.SALARY_FIELD, lowerValue, upperValue);
-        List<Document> documents = executeQuery(index, query, Integer.MAX_VALUE);
-        return documents.stream().map(this::toPersonDetails).collect(Collectors.toList());
-    }
-
-    /**
-     * Search documents by date of birth range.
-     *
-     * @param index
-     * @param lowerValue
-     * @param upperValue
-     * @return
-     * @throws IOException
-     */
-    public List<PersonDetails> findByDateOfBirthRange(Directory index, LocalDate lowerValue, LocalDate upperValue) throws IOException {
+    public List<ShoppingList> findByDateRange(Directory index, LocalDate lowerValue, LocalDate upperValue) throws IOException {
 
         String lowerValueAsString = DateTools.dateToString(toDate(lowerValue), DateTools.Resolution.DAY);
         String upperValueAsString = DateTools.dateToString(toDate(upperValue), DateTools.Resolution.DAY);
 
-        Query query = new TermRangeQuery(DocumentFields.DATE_OF_BIRTH_FIELD, new BytesRef(lowerValueAsString), new BytesRef(upperValueAsString), true, true);
+        Query query = new TermRangeQuery(DocumentFields.DATE_FIELD, new BytesRef(lowerValueAsString), new BytesRef(upperValueAsString), true, true);
         List<Document> documents = executeQuery(index, query, Integer.MAX_VALUE);
-        return documents.stream().map(this::toPersonDetails).collect(Collectors.toList());
+        return documents.stream().map(this::toShoppingList).collect(Collectors.toList());
     }
 
     /**
@@ -130,29 +128,28 @@ public class LuceneSearcher {
     }
 
     /**
-     * Create a {@link PersonDetails} instance from a  Lucene {@link Document}.
+     * Create a {@link ShoppingList} instance from a Lucene {@link Document}.
      *
      * @param document
      * @return
      */
-    private PersonDetails toPersonDetails(Document document) {
+    private ShoppingList toShoppingList(Document document) {
 
-        PersonDetails personDetails = new PersonDetails();
-        personDetails.setId(document.get(DocumentFields.ID_FIELD));
-        personDetails.setName(document.get(DocumentFields.NAME_FIELD));
-        personDetails.setGender(document.get(DocumentFields.GENDER_FIELD));
+        ShoppingList shoppingList = new ShoppingList();
+        shoppingList.setName(document.get(DocumentFields.NAME_FIELD));
 
         try {
-            Date date = DateTools.stringToDate(document.get(DocumentFields.DATE_OF_BIRTH_FIELD));
+            Date date = DateTools.stringToDate(document.get(DocumentFields.DATE_FIELD));
             LocalDate localDate = toLocalDate(date);
-            personDetails.setDateOfBirth(localDate);
+            shoppingList.setDate(localDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        personDetails.setJobTitle(document.get(DocumentFields.JOB_TITLE_FIELD));
-        personDetails.setSalary(document.getField(DocumentFields.SALARY_FIELD).numericValue().intValue());
+        shoppingList.setItems(Arrays.stream(document.getFields(DocumentFields.ITEM_FIELD))
+                .map(IndexableField::stringValue).collect(Collectors.toList()));
+        shoppingList.setFileName(document.get(DocumentFields.FILE_NAME_FIELD));
 
-        return personDetails;
+        return shoppingList;
     }
 }

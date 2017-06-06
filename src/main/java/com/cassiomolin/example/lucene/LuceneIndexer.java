@@ -1,7 +1,6 @@
 package com.cassiomolin.example.lucene;
 
-import com.cassiomolin.example.model.PersonDetails;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.cassiomolin.example.model.ShoppingList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
@@ -14,7 +13,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import static com.cassiomolin.example.util.DateUtils.toDate;
 
@@ -30,67 +28,54 @@ public class LuceneIndexer {
     private ObjectMapper mapper;
 
     /**
-     * Index JSON data.
+     * Parse JSON documents and index content.
      *
      * @param index
      * @throws IOException
      */
     public void index(Directory index) throws IOException {
 
-        InputStream stream = this.getClass().getResourceAsStream("/data.json");
-        List<PersonDetails> list = mapper.readValue(stream, new TypeReference<List<PersonDetails>>() {});
-
         StandardAnalyzer analyzer = new StandardAnalyzer();
         IndexWriterConfig config = new IndexWriterConfig(analyzer);
         IndexWriter indexWriter = new IndexWriter(index, config);
 
-        list.stream().map(this::toDocument).forEach(document -> this.addToIndex(document, indexWriter));
+        for (int i = 0; i < 5; i++) {
+
+            String fileName = "/data/shopping-list-" + (i + 1) + ".json";
+            InputStream stream = this.getClass().getResourceAsStream(fileName);
+            ShoppingList shoppingList = mapper.readValue(stream, ShoppingList.class);
+
+            shoppingList.setFileName(fileName);
+            Document document = toDocument(shoppingList);
+
+            indexWriter.addDocument(document);
+            indexWriter.commit();
+        }
 
         indexWriter.close();
     }
 
 
     /**
-     * Create a Lucene {@link Document} instance from a {@link PersonDetails} instance.
+     * Create a Lucene {@link Document} instance from a {@link ShoppingList} instance.
      *
-     * @param personDetails
+     * @param shoppingList
      * @return
      */
-    private Document toDocument(PersonDetails personDetails) {
+    private Document toDocument(ShoppingList shoppingList) {
 
         Document document = new Document();
 
-        document.add(new StringField(DocumentFields.ID_FIELD, personDetails.getId(), Field.Store.YES));
+        document.add(new StringField(DocumentFields.NAME_FIELD, shoppingList.getName(), Field.Store.YES));
+        document.add(new SortedDocValuesField(DocumentFields.NAME_FIELD, new BytesRef(shoppingList.getName())));
 
-        document.add(new TextField(DocumentFields.NAME_FIELD, personDetails.getName(), Field.Store.YES));
-        document.add(new SortedDocValuesField(DocumentFields.NAME_FIELD, new BytesRef(personDetails.getName())));
+        document.add(new StringField(DocumentFields.DATE_FIELD,
+                DateTools.dateToString(toDate(shoppingList.getDate()), DateTools.Resolution.DAY), Field.Store.YES));
 
-        document.add(new TextField(DocumentFields.GENDER_FIELD, personDetails.getGender(), Field.Store.YES));
+        shoppingList.getItems().forEach(item -> document.add(new StringField(DocumentFields.ITEM_FIELD, item, Field.Store.YES)));
 
-        document.add(new StringField(DocumentFields.DATE_OF_BIRTH_FIELD,
-                DateTools.dateToString(toDate(personDetails.getDateOfBirth()), DateTools.Resolution.DAY), Field.Store.YES));
-
-        document.add(new TextField(DocumentFields.JOB_TITLE_FIELD, personDetails.getJobTitle(), Field.Store.YES));
-
-        document.add(new StoredField(DocumentFields.SALARY_FIELD, personDetails.getSalary()));
-        document.add(new IntPoint(DocumentFields.SALARY_FIELD, personDetails.getSalary()));
+        document.add(new StringField(DocumentFields.FILE_NAME_FIELD, shoppingList.getFileName(), Field.Store.YES));
 
         return document;
-    }
-
-    /**
-     * Add a document to the index.
-     *
-     * @param document
-     * @param indexWriter
-     */
-    private void addToIndex(Document document, IndexWriter indexWriter) {
-
-        try {
-            indexWriter.addDocument(document);
-            indexWriter.commit();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
