@@ -2,7 +2,9 @@
 
 Lucene is a high-performance text search engine library written entirely in Java. This application demonstrates how to create an index and perform search operation with [Apache Lucene].
 
-Lucene indexes are stored in a [Directory][] which contains [Document][]s that can have a set of [Field][]s. At a glance, here's how to perform some simple operations with Lucene:
+## Indexing and searching with Lucene
+
+Here's an example on how to perform some simple operations with Lucene:
 
 ```java
 // Create an index in memory
@@ -50,7 +52,9 @@ for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 }
 ```
 
-This application parses some JSON files, indexes their content and performs some searches with Lucene.
+## What will you find in this application?
+
+This application parses some JSON files with Jackson, indexes their content with Lucene and performs some searches.
 
 ## How to build and run this application?
 
