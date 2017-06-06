@@ -69,8 +69,4 @@ To build and run this application, follow these steps:
 1. Execute the JAR: `java -jar index-and-search-with-lucene-1.0.jar`.
 1. The application should be executed and the result should be displayed in the console.
 
-
-  [Directory]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/store/Directory.html
-  [Document]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/document/Document.html
-  [Field]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/document/Field.html
   [Apache Lucene]: http://lucene.apache.org/core/
