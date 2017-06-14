@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/cassiomolin/index-and-search-with-lucene.svg?branch=master)](https://travis-ci.org/cassiomolin/index-and-search-with-lucene)
+# Indexing and searching with Apache Lucene
 
-# index-and-search-with-lucene
+[![Build Status](https://travis-ci.org/cassiomolin/index-and-search-with-lucene.svg?branch=master)](https://travis-ci.org/cassiomolin/index-and-search-with-lucene)
 
 Lucene is a high-performance text search engine library written entirely in Java. This application demonstrates how to create an index and perform search operation with [Apache Lucene].
 
