@@ -1,15 +1,11 @@
-# Indexing and searching with Apache Lucene
+# Example of indexing and searching with Apache Lucene
 
 [![Build Status](https://travis-ci.org/cassiomolin/example-lucene.svg?branch=master)](https://travis-ci.org/cassiomolin/example-lucene)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cassiomolin/example-lucene/master/LICENSE.txt)
 
-[Apache Lucene] is a high-performance text search engine library written entirely in Java.
+[Apache Lucene] is a high-performance text search engine library written entirely in Java. 
 
-This application demonstrates how to create an index and perform search operation with Apache Lucene.
-
-## What will you find in this application?
-
-This application parses some JSON files with Jackson, indexes their content with Lucene and performs some searches.
+This example application demonstrates how to perform some operations with Apache Lucene: This application parses some JSON files with Jackson, indexes their content with Lucene and performs some searches.
 
 ## How to build and run this application?
 
