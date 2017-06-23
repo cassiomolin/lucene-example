@@ -28,7 +28,7 @@ To build and run this application, follow these steps:
 
 A Lucene index ([`Directory`][Directory]) is a collection of entries ([`Document`][Document]) that contains properties ([`Field`][Field]).
 
-A writer ([`IndexWriter`][IndexWriter]) is required to add entries to the index while a searcher ([`IndexSearcher`][IndexSearcher]) allows you to execute queries ([`Query`][Query]) against the index and get the results ([`TopDocs`][TopDocs]).
+A writer ([`IndexWriter`][IndexWriter]) allows you to add entries to the index while a searcher ([`IndexSearcher`][IndexSearcher]) allows you to execute queries ([`Query`][Query]) against the index and get the results ([`TopDocs`][TopDocs]).
 
 For better understanding how Apache Lucene works, here's an example on how to perform some simple indexing and searching operations:
 
