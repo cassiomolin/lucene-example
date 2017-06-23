@@ -28,7 +28,7 @@ To build and run this application, follow these steps:
 
 A Lucene index ([`Directory`][Directory]) is a collection of entries ([`Document`][Document]) that contains properties ([`Field`][Field]).
 
-A writer ([`IndexWriter`][IndexWriter]) is required to add entries to the index while a reader ([`IndexReader`][IndexReader]) allows you to execute queries ([`Query`][Query]) against the index and get the results ([`TopDocs`][TopDocs]).
+A writer ([`IndexWriter`][IndexWriter]) is required to add entries to the index while a searcher ([`IndexSearcher`][IndexSearcher]) allows you to execute queries ([`Query`][Query]) against the index and get the results ([`TopDocs`][TopDocs]).
 
 For better understanding how Apache Lucene works, here's an example on how to perform some simple indexing and searching operations:
 
@@ -105,6 +105,6 @@ for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
   [Document]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/document/Document.html
   [Field]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/document/Field.html
   [IndexWriter]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/index/IndexWriter.html
-  [IndexReader]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/index/IndexReader.html
+  [IndexSearcher]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/search/IndexSearcher.html
   [Query]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/search/Query.html
   [TopDocs]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/search/TopDocs.html
