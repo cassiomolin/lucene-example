@@ -26,20 +26,20 @@ To build and run this application, follow these steps:
 
 ## Indexing and searching
 
-A Lucene index (`Directory`) is a collection of entries (`Document`) that contains properties (`Field`).
+A Lucene index ([`Directory`][Directory]) is a collection of entries ([`Document`][Document]) that contains properties ([`Field`][Field]).
 
-A writer (`IndexWriter`) is required to add entries to the index while a reader (`IndexReader`) allows you to execute queries (`Query`) against the index and get the results (`TopDocs`).
+A writer ([`IndexWriter`][IndexWriter]) is required to add entries to the index while a reader ([`IndexReader`][IndexReader]) allows you to execute queries ([`Query`][Query]) against the index and get the results ([`TopDocs`][TopDocs]).
 
 For better understanding how Apache Lucene works, here's an example on how to perform some simple indexing and searching operations:
 
-### Create index
+### Create an index
 
 ```java
 // Create an index in memory
 Directory index = new RAMDirectory();
 ```
 
-### Create index writer
+### Create an index writer
 
 ```java
 // Create an index writer
@@ -72,7 +72,7 @@ indexWriter.addDocument(document);
 indexWriter.close();
 ```
 
-### Create index searcher
+### Create an index searcher
 
 ```java
 // Create an index searcher
@@ -80,14 +80,14 @@ IndexReader reader = DirectoryReader.open(index);
 IndexSearcher searcher = new IndexSearcher(reader);
 ```
 
-### Create query
+### Create a query
 
 ```java
 // Create a query to look for people with "doe" in the name
 Query query = new TermQuery(new Term("name", "doe"));
 ```
 
-### Execute query and display results
+### Execute the query and display the results
 
 ```java
 // Execute que query and show the results
@@ -101,3 +101,10 @@ for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
 ```
 
   [Apache Lucene]: http://lucene.apache.org/core/
+  [Directory]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/store/Directory.html
+  [Document]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/document/Document.html
+  [Field]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/document/Field.html
+  [IndexWriter]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/index/IndexWriter.html
+  [IndexReader]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/index/IndexReader.html
+  [Query]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/search/Query.html
+  [TopDocs]: https://lucene.apache.org/core/6_5_1/core/org/apache/lucene/search/TopDocs.html
