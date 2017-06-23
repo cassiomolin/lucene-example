@@ -26,15 +26,21 @@ To build and run this application, follow these steps:
 
 ## Indexing and searching
 
-For better understanding how Apache Lucene works, here's an example on how to perform some simple indexing and seraching operations:
+A Lucene index (`Directory`) is a collection of entries (`Document`) that contains properties (`Field`).
+
+A writer (`IndexWriter`) is required to add entries to the index while a reader (`IndexReader`) allows you to execute queries (`Query`) against the index and get the results (`TopDocs`).
+
+For better understanding how Apache Lucene works, here's an example on how to perform some simple indexing and searching operations:
 
 ### Create index
+
 ```java
 // Create an index in memory
 Directory index = new RAMDirectory();
 ```
 
 ### Create index writer
+
 ```java
 // Create an index writer
 StandardAnalyzer analyzer = new StandardAnalyzer();
@@ -43,7 +49,8 @@ IndexWriter indexWriter = new IndexWriter(index, config);
 ```
 
 ### Add entries to the index
-```
+
+```java
 // Add a document to the index
 Document document = new Document();
 document.add(new TextField("name", "John Doe", Field.Store.YES));
@@ -66,6 +73,7 @@ indexWriter.close();
 ```
 
 ### Create index searcher
+
 ```java
 // Create an index searcher
 IndexReader reader = DirectoryReader.open(index);
@@ -73,12 +81,14 @@ IndexSearcher searcher = new IndexSearcher(reader);
 ```
 
 ### Create query
+
 ```java
 // Create a query to look for people with "doe" in the name
 Query query = new TermQuery(new Term("name", "doe"));
 ```
 
 ### Execute query and display results
+
 ```java
 // Execute que query and show the results
 TopDocs topDocs = searcher.search(query, 10);
