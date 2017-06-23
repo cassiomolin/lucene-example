@@ -3,11 +3,13 @@
 [![Build Status](https://travis-ci.org/cassiomolin/example-lucene.svg?branch=master)](https://travis-ci.org/cassiomolin/example-lucene)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cassiomolin/example-lucene/master/LICENSE.txt)
 
-Lucene is a high-performance text search engine library written entirely in Java. This application demonstrates how to create an index and perform search operation with [Apache Lucene].
+[Apache Lucene] is a high-performance text search engine library written entirely in Java.
+
+This application demonstrates how to create an index and perform search operation with Apache Lucene.
 
 ## Indexing and searching with Lucene
 
-Here's an example on how to perform some simple operations with Lucene:
+For better understanding how Apache Lucene works, here's an example on how to perform some simple indexing and seraching operations:
 
 ```java
 // Create an index in memory
