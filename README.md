@@ -7,9 +7,7 @@
 
 This example application demonstrates how to perform some operations with Apache Lucene: This application parses some JSON files with Jackson, indexes their content with Lucene and performs some searches.
 
-## How to build and run this application?
-
-To build and run this application, follow these steps:
+## Building and running this application
 
 1. Open a command line window or terminal.
 1. Navigate to the root directory of the project, where the `pom.xml` resides.
@@ -20,7 +18,7 @@ To build and run this application, follow these steps:
 1. Execute the JAR: `java -jar index-and-search-with-lucene-1.0.jar`.
 1. The application should be executed and the result should be displayed in the console.
 
-## Indexing and searching
+## Indexing and searching with Apache Lucene
 
 A Lucene index ([`Directory`][Directory]) is a collection of entries ([`Document`][Document]) that contains properties ([`Field`][Field]).
 
