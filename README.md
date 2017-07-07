@@ -1,7 +1,7 @@
 # Example of indexing and searching with Apache Lucene
 
-[![Build Status](https://travis-ci.org/cassiomolin/example-lucene.svg?branch=master)](https://travis-ci.org/cassiomolin/example-lucene)
-[![MIT Licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cassiomolin/example-lucene/master/LICENSE.txt)
+[![Build Status](https://travis-ci.org/cassiomolin/lucene-example.svg?branch=master)](https://travis-ci.org/cassiomolin/lucene-example)
+[![MIT Licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/cassiomolin/lucene-example/master/LICENSE.txt)
 
 [Apache Lucene] is a high-performance text search engine library written entirely in Java. 
 
